@@ -63,8 +63,19 @@ void open_files(struct _flag flag, int argc, char **argv) {
 void printing(struct _flag flag, FILE *file) {
   flag.row_number = 1;
   flag.previous_sym = '\n';
+  int blank_line = 0;
   while ((flag.current_sym = fgetc(file)) != EOF) {
     if (flag.previous_sym == '\n') {
+      if (flag.s) {
+        if (flag.current_sym == '\n') {
+          if (blank_line) {
+            flag.previous_sym = flag.current_sym;
+            continue;
+          }
+          blank_line = 1;
+        } else
+          blank_line = 0;
+      }
       if (flag.b && flag.current_sym != '\n') {
         fprintf(stdout, "%6d\t", flag.row_number);
         flag.row_number += 1;
