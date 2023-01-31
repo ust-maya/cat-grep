@@ -8,11 +8,14 @@ struct _cat {
 
 void parser_flags(struct _cat *cat, int argc, char **argv);
 void dubug_info(struct _cat cat);
+void cat_s(struct _cat cat, FILE *file);
+void open_files(struct _cat cat, int argc, char **argv);
 
 int main(int argc, char **argv) {
   struct _cat cat;
   memset(&cat, 0, sizeof(cat));
   parser_flags(&cat, argc, argv);
+  open_files(cat, argc, argv);
   dubug_info(cat);
   return 0;
 }
@@ -57,9 +60,22 @@ void parser_flags(struct _cat *cat, int argc, char **argv) {
   }
 }
 
-void open_files() {}
+void open_files(struct _cat cat, int argc, char **argv) {
+  for (; optind < argc; optind++) {
+    FILE *pfile_name;
+    if ((pfile_name = fopen(argv[optind], "r")) == NULL) {
+      fprintf(stderr, "%s: %s: No such file or directory\n", argv[0], argv[optind]);
+    } else {
+      printf("%s - ", argv[optind]);
+      cat_s(cat, pfile_name);
+      fclose(pfile_name);
+    }
+  }
+}
 
-void cat_s() {}
+void cat_s(struct _cat cat, FILE *file) {
+  printf("file is ok!\n");
+}
 
 void dubug_info(struct _cat cat) {
   printf("b - %d\n", cat.b);
