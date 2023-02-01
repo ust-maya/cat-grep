@@ -79,10 +79,37 @@ void printing(struct _flag flag, FILE *file) {
       if (flag.b && flag.current_sym != '\n') {
         fprintf(stdout, "%6d\t", flag.row_number);
         flag.row_number += 1;
+      } else {
+        if (flag.n) {
+          fprintf(stdout, "%6d\t", flag.row_number);
+          flag.row_number += 1;
+        }
       }
-      if (flag.n && !flag.b) {
-        fprintf(stdout, "%6d\t", flag.row_number);
-        flag.row_number += 1;
+    }
+    if (flag.v) {
+      if (flag.current_sym == '\n') {
+        fprintf(stdout, "$");
+      } else if (flag.current_sym < ' ') {
+        fprintf(stdout, "^%c", flag.current_sym + 64);
+        flag.previous_sym = flag.current_sym;
+        continue;
+      } else if (flag.current_sym == 127) {
+        fprintf(stdout, "^?");
+        flag.previous_sym = flag.current_sym;
+        continue;
+      }
+    } else {
+      if (flag.T) {
+        if (flag.current_sym == '\t') {
+          fprintf(stdout, "^I");
+          flag.previous_sym = flag.current_sym;
+          continue;
+        }
+      }
+      if (flag.E) {
+        if (flag.current_sym == '\n') {
+          fprintf(stdout, "$");
+        }
       }
     }
     fprintf(stdout, "%c", flag.current_sym);
