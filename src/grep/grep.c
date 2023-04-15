@@ -1,10 +1,14 @@
 #include "grep.h"
 
 int main(int argc, char **argv) {
-  struct _flag flag;
-  memset(&flag, 0, sizeof(flag));
-  parser_flags(&flag, argc, argv);
-  // open_files(flag, argc, argv);
+  if (argc >= 3) {
+    struct _flag flag;
+    memset(&flag, 0, sizeof(flag));
+    parser_flags(&flag, argc, argv);
+    // open_files(flag, argc, argv);
+  } else {
+    fprintf(stderr, "Not enought arguments\n");
+  }
   return 0;
 }
 
