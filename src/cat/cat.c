@@ -1,10 +1,14 @@
 #include "cat.h"
 
 int main(int argc, char **argv) {
-  struct _flag flag;
-  memset(&flag, 0, sizeof(flag));
-  parser_flags(&flag, argc, argv);
-  open_files(flag, argc, argv);
+  if (argc >= 2) {
+    struct _flag flag;
+    memset(&flag, 0, sizeof(flag));
+    parser_flags(&flag, argc, argv);
+    open_files(flag, argc, argv);
+  } else {
+    fprintf(stderr, "Not enough arguments\n");
+  }
   return 0;
 }
 
@@ -52,7 +56,8 @@ void open_files(struct _flag flag, int argc, char **argv) {
   for (; optind < argc; optind++) {
     FILE *pfile_name;
     if ((pfile_name = fopen(argv[optind], "r")) == NULL) {
-      fprintf(stderr, "%s: %s: No such file or directory\n", argv[0], argv[optind]);
+      fprintf(stderr, "%s: %s: No such file or directory\n", argv[0],
+              argv[optind]);
     } else {
       printing(flag, pfile_name);
       fclose(pfile_name);

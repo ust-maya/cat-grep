@@ -1,2 +1,5 @@
-src/cat/a.out
-src/grep/a.out
+.vscode/launch.json
+.gitignore
+.vscode/tasks.json
+.vscode/settings.json
+grep.dSYM/
