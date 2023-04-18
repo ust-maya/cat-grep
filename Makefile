@@ -1,7 +1,13 @@
 FLAGS = -Wall -Werror -Wextra
 
-cat: clean
-	gcc $(FLAGS) src/cat/cat.c -o cat
+all: my_cat my_grep
+
+my_cat: clean
+	gcc $(FLAGS) src/cat/cat.c -o my_cat
+
+my_grep: clean
+	gcc $(FLAGS) src/grep/grep.c -o my_grep
 
 clean:
-	rm -rf cat
+	rm -rf my_cat
+	rm -rf my_grep
